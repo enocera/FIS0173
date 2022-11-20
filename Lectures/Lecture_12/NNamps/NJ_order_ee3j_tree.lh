@@ -1,0 +1,17 @@
+# OLE_order for ee+3jet production
+
+CorrectionType          QCD
+IRregularisation        CDR
+AlphasPower             1
+AlphaPower              2
+
+NJetReturnAccuracy yes
+AmplitudeType tree
+
+SetParameter mass(23) 10e9
+SetParameter mass(24) 10e9
+
+NJetNc 3
+
+# process list
+11 -11 -> 2 -2 21
