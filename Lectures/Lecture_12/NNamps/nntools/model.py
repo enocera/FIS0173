@@ -67,10 +67,6 @@ class Model:
         norm = (array-minimum)/(maximum-minimum)
         return minimum, maximum, norm
         
-    def root_mean_squared_error(self, y_true, y_pred):
-        'custom loss function RMSE'
-        return K.sqrt(K.mean(K.square(y_pred - y_true)))
-    
     def process_training_data(self, scaling='standardise', **kwargs):
         '''
         training data must be standardised and split for training and validation

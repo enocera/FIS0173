@@ -172,3 +172,56 @@ Print[sep = Sort@Flatten@Table[dot[moms[[p,3;;]][[i]],moms[[p,3;;]][[j]]]/14,{i,
 
 
 (* In order to improve efficiency, we need to weight phase space generator to prefer points which contribute a lot to the cross section *)
+
+
+(* FKS splitting *)
+
+
+PS = RAMBO[3,14]
+
+
+(* all massless assumed *)
+s[i_,j_,PS_]:=2*dot[PS[[i]],PS[[j]]]
+S[i_,j_,D1_,PS_]:=1/s[i,j,PS]/D1
+
+
+ShowFKSpartitions[nn_]:=Module[{DD},
+DD = Sum[1/s[i,j],{i,3,nn},{j,i+1,nn}];
+Return[Flatten@Table[1/s[i,j]/DD,{i,3,nn-1},{j,i+1,nn}]];
+]
+
+
+tmp = ShowFKSpartitions[5]//Factor
+Normal@Series[tmp /. {s[3,4]->delta, s[3,5]->z*s[P,5], s[4,5]->(1-z)*s[P,5]},{delta,0,0}] (* 3||4 *)
+Normal@Series[tmp /. {s[3,5]->delta, s[3,4]->z*s[P,4], s[4,5]->(1-z)*s[P,4]},{delta,0,0}]
+Normal@Series[tmp /. {s[4,5]->delta, s[3,5]->z*s[P,3], s[3,4]->(1-z)*s[P,3]},{delta,0,0}]
+
+Normal@Series[tmp /. {s[3,4]->delta, s[3,5]->delta},{delta,0,0}] (* p3 soft *)
+Normal@Series[tmp /. {s[3,4]->delta, s[4,5]->delta},{delta,0,0}]
+Normal@Series[tmp /. {s[3,5]->delta, s[4,5]->delta},{delta,0,0}]
+
+
+tmp = ShowFKSpartitions[6]//Factor
+Normal@Series[tmp /. {s[3,4]->delta, s[3,5]->z*s[P,5], s[4,5]->(1-z)*s[P,5]},{delta,0,0}] (* 3||4 *)
+Normal@Series[tmp /. {s[3,5]->delta, s[3,4]->z*s[P,4], s[4,5]->(1-z)*s[P,4]},{delta,0,0}]
+Normal@Series[tmp /. {s[4,5]->delta, s[3,5]->z*s[P,3], s[3,4]->(1-z)*s[P,3]},{delta,0,0}]
+
+Normal@Series[tmp /. {s[3,4]->delta, s[3,5]->delta},{delta,0,0}] (* p3 soft *)
+Normal@Series[tmp /. {s[3,4]->delta, s[4,5]->delta},{delta,0,0}]
+Normal@Series[tmp /. {s[3,5]->delta, s[4,5]->delta},{delta,0,0}]
+
+
+GetFKSpartitions[PS_]:=Module[{nn, DD},
+nn = Length[PS];
+DD = Sum[1/s[i,j,PS],{i,3,nn},{j,i+1,nn}];
+Return[Flatten@Table[S[i,j,DD,PS],{i,3,nn-1},{j,i+1,nn}]];
+]
+
+
+GetFKSpartitions[PS]
+Plus@@%
+
+
+Do[
+  Print[GetFKSpartitions[moms[[p]]]];
+,{p,pos}]
