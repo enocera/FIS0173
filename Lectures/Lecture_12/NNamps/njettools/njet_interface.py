@@ -25,9 +25,9 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 #import njet
 import imp
-NJET_DIR = '/Users/simon/gitrepos/njet-develop/'
+NJET_DIR = '/Users/simon/packages/njet-3.1.1-1L/'
 #NJET_LIB = NJET_DIR + '/.libs/'
-NJET_LIB = '/Users/simon/local/njet/lib/'
+NJET_LIB = '/Users/simon/local/njet-gcc12-conda/lib/'
 sys.path.append(NJET_DIR)
 sys.path.append(NJET_DIR + '/examples/')
 
